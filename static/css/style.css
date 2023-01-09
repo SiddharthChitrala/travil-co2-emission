@@ -1,0 +1,45 @@
+div.head {
+     position: relative;
+     margin-top: 150px;
+     margin-bottom: 23px;
+}
+
+.pub1 a {
+     font: 2em sans-serif;
+}
+
+.publish {
+     margin-top: 20px;
+     margin-right: 20px;
+}
+
+#search_destination .Text {
+     font-size: x-large;
+     font-weight: bolder;
+     margin-top: 10vh;
+}
+
+.rides {
+     background-image: url("https://img.freepik.com/free-vector/two-tourist-catching-car-road_74855-15561.jpg?w=1060&t=st=1673206978~exp=1673207578~hmac=300fe2e3bae50ec6f88a979b0ae07eee6818d6d74cc8e9a7a6daaa823277130a");
+     background-repeat: no-repeat;
+     background-position: 23vh 10vh;
+}
+
+.card {
+     margin-top: 8vh;
+}
+
+/* publish */
+
+
+
+   
+   
+@media screen and (max-width: 500px) {
+     .rides {
+          background-image: none;
+     }
+
+
+
+}
