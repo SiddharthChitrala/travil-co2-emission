@@ -13,10 +13,8 @@ div.head {
      margin-right: 20px;
 }
 
-#search_destination .Text {
-     font-size: x-large;
-     font-weight: bolder;
-     margin-top: 10vh;
+.container .publish {
+     width: 50vh;
 }
 
 .rides {
@@ -35,11 +33,13 @@ div.head {
 
    
    
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1000px) {
      .rides {
           background-image: none;
      }
 
-
+     .container .publish {
+          width: 36vh;
+     }
 
 }
