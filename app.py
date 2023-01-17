@@ -1,6 +1,6 @@
+import re
 from flask import Flask, render_template, request, redirect, url_for, session
 import ibm_db
-import re
 
 app = Flask(__name__)
 app.secret_key = 'a'
@@ -9,14 +9,16 @@ conn = ibm_db.connect(
 
 print("connected")
 @app.route('/')
+@app.route('/login', methods=['POST','GET'])
 def login():
     global userid
     msg = ''
 
     if request.method == 'POST':
+        # print("Haiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
         username = request.form['username']
         password = request.form['password']
-        sql = "SELECT*FROM users WHERE username =? AND password=?"
+        sql = "SELECT * FROM USERS WHERE username =? AND password=?"
         stmt = ibm_db.prepare(conn, sql)
         ibm_db.bind_param(stmt, 1, username)
         ibm_db.bind_param(stmt, 2, password)
@@ -35,15 +37,18 @@ def login():
     return render_template('login.html', msg=msg)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     msg = ''
     if request.method == 'POST':
+        # print('hi----------------------')
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        sql = "SELECT * FROM user WHERE username = ?"
-        stmt = ibm_db.prepare(stmt, 1, username)
+        # print(username)
+        sql = "SELECT * FROM USERS WHERE username =?"
+        stmt = ibm_db.prepare(conn, sql)
+        ibm_db.bind_param(stmt, 1, username)
         ibm_db.execute(stmt)
         account = ibm_db.fetch_assoc(stmt)
         print(account)
@@ -52,17 +57,18 @@ def register():
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
             msg = "Invalid email address !"
         else:
-            insert_sql = "INSERT INTO users VALUE (?,?,?)"
+            insert_sql = "INSERT INTO USERS VALUES (?,?,?)"
             prep_stmt = ibm_db.prepare(conn, insert_sql)
             ibm_db.bind_param(prep_stmt, 1, username)
             ibm_db.bind_param(prep_stmt, 2, email)
             ibm_db.bind_param(prep_stmt, 3, password)
             ibm_db.execute(prep_stmt)
             msg = 'you have successfully registered !'
+            return render_template('login.html', msg=msg)
     elif request.method == 'POST':
         msg = 'Please fill out the form!'
     return render_template('login.html', msg=msg)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(debug=True)
