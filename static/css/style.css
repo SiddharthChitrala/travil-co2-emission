@@ -2,6 +2,10 @@
      font: 2em sans-serif;
 }
 
+.scrolling {
+     scroll-behavior: smooth;
+}
+
 .publish {
      margin-top: 20px;
      margin-right: 20px;
@@ -17,14 +21,58 @@
      background-position: 23vh 10vh;
 }
 
-.card {
+/* .card {
      margin-top: 8vh;
+} */
+
+/* publish */
+
+
+
+.profile-pics {
+     height: 100px;
+     width: 100px;
+     position: relative;
+     top: 10%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     border-radius: 70%;
+     overflow: hidden;
+     border: 2px solid grey;
+}
+
+#photo {
+     height: 100%;
+     width: 100%;
+}
+
+#file {
+     display: none;
+}
+
+#uploadBtn {
+     height: 30px;
+     width: 100%;
+     position: absolute;
+     bottom: 0;
+     left: 50%;
+     transform: translateX(-50%);
+     text-align: center;
+     background: rgba(73, 72, 72, 0.7);
+     /* line-height: 40px; */
+     cursor: pointer;
+     /* display: none; */
+}
+/* ridesharing */
+
+#gradent{
+     background-image: linear-gradient(to bottom, #88ece6, #87eae6, #87e8e7, #86e5e7, #86e3e7, #90e3ee, #9ce3f4, #a9e3f7, #c3e5fb, #d9e8fa, #eaedf7, #f3f3f3);
 }
 
 /* Login */
 
 
-body .body {
+body .body html {
      font-family: 'Poppins', sans-serif !important;
 }
 
@@ -56,8 +104,13 @@ body .body {
      background: #f0f0f0;
 }
 
+.bodys {
+     position: relative;
+     display: flexbox;
+}
+
 @media (min-width: 1024px) {
-     body {
+     .bodys {
           overflow-y: hidden;
      }
 
@@ -123,7 +176,7 @@ body .body {
           padding: 0px !important;
      }
 
-     body {
+     .bodys {
           overflow-x: hidden;
      }
 }

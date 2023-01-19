@@ -1,6 +1,7 @@
 import re
 from flask import Flask, render_template, request, redirect, url_for, session
 import ibm_db
+import requests
 
 app = Flask(__name__)
 app.secret_key = 'a'
@@ -8,8 +9,10 @@ conn = ibm_db.connect(
     "DATABASE=bludb ;HOSTNAME=fbd88901-ebdb-4a4f-a32e-9822b9fb237b.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud;PORT=32731;SECURITY=SSL;SSLServerCertificate=Certificate.crt;UID=ndn31403;PWD=CXByUkMolyENaZVa;", '', '')
 
 print("connected")
+
+
 @app.route('/')
-@app.route('/login', methods=['POST','GET'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     global userid
     msg = ''
@@ -69,13 +72,253 @@ def register():
         msg = 'Please fill out the form!'
     return render_template('login.html', msg=msg)
 
-@app.route('/logout')
 
+@app.route('/logout')
 def logout():
-   session.pop('loggedin', None)
-   session.pop('id', None)
-   session.pop('username', None)
-   return render_template('login.html')
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('username', None)
+    return render_template('login.html')
+
+
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+
+@app.route("/co2calculator")
+def co2():
+
+    return render_template('co2calculator.html')
+
+
+@app.route("/co2calculator1", methods=['POST', 'GET'])
+def output1():
+
+    if request.method == 'POST':
+        VehicleType = request.form['VehicleType']
+        VehicleFuelType = request.form['VehicleFuelType']
+        Distance = request.form['Distance']
+        NumberOfPeople = request.form['NumberOfPeople']
+        # print(cars,fuels,dists,nump)
+
+        url = "https://travel-co2-climate-carbon-emissions.p.rapidapi.com/api/v1/transport"
+
+        payload = {
+            "vehicle": {
+                "type": VehicleType,
+                "fuel": {"type": VehicleFuelType}
+            },
+            "distance": Distance,
+            "people": NumberOfPeople
+        }
+        headers = {
+            "content-type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Bearer {YOUR_API_KEY}",
+            "Content-Type": "application/json",
+            "X-RapidAPI-Key": "27b6565a30mshe87cd65f16384b3p180f40jsn268e26e0d7ef",
+            "X-RapidAPI-Host": "travel-co2-climate-carbon-emissions.p.rapidapi.com"
+        }
+
+        response = requests.request("POST", url, json=payload, headers=headers)
+        print(response.text)
+        output1 = response.json()
+
+        pp = output1['co2e_pp']
+        print(pp)
+        e = output1['co2e']
+
+        if request.method == 'POST':
+            VehicleType = request.form['VehicleType']
+            VehicleFuelType = request.form['VehicleFuelType']
+            Distance = request.form['Distance']
+            NumberOfPeople = request.form['NumberOfPeople']
+            co2e_pp=pp
+            print(pp)
+            co2e = e
+            insert_sql = "INSERT INTO VEHICLES VALUES (?,?,?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, VehicleType)
+            ibm_db.bind_param(prep_stmt, 2, VehicleFuelType)
+            ibm_db.bind_param(prep_stmt, 3, Distance)
+            ibm_db.bind_param(prep_stmt, 4, NumberOfPeople)
+            ibm_db.bind_param(prep_stmt, 5, co2e_pp)
+            ibm_db.bind_param(prep_stmt, 6, co2e)
+            ibm_db.execute(prep_stmt)
+        return render_template("co2calculator.html", pp=pp, e=e)
+    return render_template("co2calculator.html")
+
+
+@app.route("/co2calculator2", methods=['POST', 'GET'])
+def output2():
+
+    if request.method == 'POST':
+        VehicleType = request.form['VehicleType']
+        VehicleFuelType = request.form['VehicleFuelType']
+        Distance = request.form['Distance']
+        NumberOfPeople = request.form['NumberOfPeople']
+        # print(cars,fuels,dists,nump)
+
+        url = "https://travel-co2-climate-carbon-emissions.p.rapidapi.com/api/v1/transport"
+
+        payload = {
+            "vehicle": {
+                "type": VehicleType,
+                "fuel": {"type": VehicleFuelType}
+            },
+            "distance": Distance,
+            "people": NumberOfPeople
+        }
+        headers = {
+            "content-type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Bearer {YOUR_API_KEY}",
+            "Content-Type": "application/json",
+            "X-RapidAPI-Key": "27b6565a30mshe87cd65f16384b3p180f40jsn268e26e0d7ef",
+            "X-RapidAPI-Host": "travel-co2-climate-carbon-emissions.p.rapidapi.com"
+        }
+
+        response = requests.request("POST", url, json=payload, headers=headers)
+        print(response.text)
+        output2 = response.json()
+
+        pp = output2['co2e_pp']
+        print(pp)
+        e = output2['co2e']
+        if request.method == 'POST':
+            VehicleType = request.form['VehicleType']
+            VehicleFuelType = request.form['VehicleFuelType']
+            Distance = request.form['Distance']
+            NumberOfPeople = request.form['NumberOfPeople']
+            co2e_pp=pp
+            print(pp)
+            co2e = e
+            insert_sql = "INSERT INTO VEHICLES VALUES (?,?,?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, VehicleType)
+            ibm_db.bind_param(prep_stmt, 2, VehicleFuelType)
+            ibm_db.bind_param(prep_stmt, 3, Distance)
+            ibm_db.bind_param(prep_stmt, 4, NumberOfPeople)
+            ibm_db.bind_param(prep_stmt, 5, co2e_pp)
+            ibm_db.bind_param(prep_stmt, 6, co2e)
+            ibm_db.execute(prep_stmt)
+        return render_template("co2calculator.html", pp=pp, e=e)
+    return render_template("co2calculator.html")
+
+
+@app.route("/co2calculator3", methods=['POST', 'GET'])
+def output3():
+
+    if request.method == 'POST':
+        VehicleType = request.form['VehicleType']
+        VehicleFuelType = request.form['VehicleFuelType']
+        Distance = request.form['Distance']
+        NumberOfPeople = request.form['NumberOfPeople']
+        # print(cars,fuels,dists,nump)
+
+        url = "https://travel-co2-climate-carbon-emissions.p.rapidapi.com/api/v1/transport"
+
+        payload = {
+            "vehicle": {
+                "type": VehicleType,
+                "fuel": {"type": VehicleFuelType}
+            },
+            "distance": Distance,
+            "people": NumberOfPeople
+        }
+        headers = {
+            "content-type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Bearer {YOUR_API_KEY}",
+            "Content-Type": "application/json",
+            "X-RapidAPI-Key": "27b6565a30mshe87cd65f16384b3p180f40jsn268e26e0d7ef",
+            "X-RapidAPI-Host": "travel-co2-climate-carbon-emissions.p.rapidapi.com"
+        }
+
+        response = requests.request("POST", url, json=payload, headers=headers)
+        print(response.text)
+        output3 = response.json()
+
+        pp = output3['co2e_pp']
+        print(pp)
+        e = output3['co2e']
+        if request.method == 'POST':
+            VehicleType = request.form['VehicleType']
+            VehicleFuelType = request.form['VehicleFuelType']
+            Distance = request.form['Distance']
+            NumberOfPeople = request.form['NumberOfPeople']
+            co2e_pp=pp
+            print(pp)
+            co2e = e
+            insert_sql = "INSERT INTO VEHICLES VALUES (?,?,?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, VehicleType)
+            ibm_db.bind_param(prep_stmt, 2, VehicleFuelType)
+            ibm_db.bind_param(prep_stmt, 3, Distance)
+            ibm_db.bind_param(prep_stmt, 4, NumberOfPeople)
+            ibm_db.bind_param(prep_stmt, 5, co2e_pp)
+            ibm_db.bind_param(prep_stmt, 6, co2e)
+            ibm_db.execute(prep_stmt)
+        return render_template("co2calculator.html", pp=pp, e=e)
+    return render_template("co2calculator.html")
+
+
+@app.route("/co2calculator4", methods=['POST', 'GET'])
+def output4():
+
+    if request.method == 'POST':
+        VehicleType = request.form['VehicleType']
+        VehicleFuelType = request.form['VehicleFuelType']
+        Distance = request.form['Distance']
+        NumberOfPeople = request.form['NumberOfPeople']
+        # print(cars,fuels,dists,nump)
+
+        url = "https://travel-co2-climate-carbon-emissions.p.rapidapi.com/api/v1/transport"
+
+        payload = {
+            "vehicle": {
+                "type": VehicleType,
+                "fuel": {"type": VehicleFuelType}
+            },
+            "distance": Distance,
+            "people": NumberOfPeople
+        }
+        headers = {
+            "content-type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Bearer {YOUR_API_KEY}",
+            "Content-Type": "application/json",
+            "X-RapidAPI-Key": "27b6565a30mshe87cd65f16384b3p180f40jsn268e26e0d7ef",
+            "X-RapidAPI-Host": "travel-co2-climate-carbon-emissions.p.rapidapi.com"
+        }
+
+        response = requests.request("POST", url, json=payload, headers=headers)
+        print(response.text)
+        output4 = response.json()
+
+        pp = output4['co2e_pp']
+        print(pp)
+        e = output4['co2e']
+        if request.method == 'POST':
+            VehicleType = request.form['VehicleType']
+            VehicleFuelType = request.form['VehicleFuelType']
+            Distance = request.form['Distance']
+            NumberOfPeople = request.form['NumberOfPeople']
+            co2e_pp=pp
+            print(pp)
+            co2e = e
+            insert_sql = "INSERT INTO VEHICLES VALUES (?,?,?,?,?,?)"
+            prep_stmt = ibm_db.prepare(conn, insert_sql)
+            ibm_db.bind_param(prep_stmt, 1, VehicleType)
+            ibm_db.bind_param(prep_stmt, 2, VehicleFuelType)
+            ibm_db.bind_param(prep_stmt, 3, Distance)
+            ibm_db.bind_param(prep_stmt, 4, NumberOfPeople)
+            ibm_db.bind_param(prep_stmt, 5, co2e_pp)
+            ibm_db.bind_param(prep_stmt, 6, co2e)
+            ibm_db.execute(prep_stmt)
+        return render_template("co2calculator.html", pp=pp, e=e)
+    return render_template("co2calculator.html")
 
 
 if __name__ == '__main__':
