@@ -1,7 +1,7 @@
-function fun() {  
-     alert (" Hello Contact us on  \n +91@@@@@@@@@@@  \n Support@gmail.com ");  
-}  
-  
+function fun() {
+    alert(" Hello Contact us on  \n +91@@@@@@@@@@@  \n Support@gmail.com ");
+}
+
 const signUp = document.querySelector("#signUp");
 const signIn = document.querySelector("#signIn");
 const passwordIcon = document.querySelectorAll('.password__icon')
@@ -40,42 +40,31 @@ for (var i = 0; i < passwordIcon.length; ++i) {
 }
 // publish
 
-//declearing html elements
 
-const imgDiv = document.querySelector('.profile-pics');
-const img = document.querySelector('#photo');
-const file = document.querySelector('#file');
-const uploadBtn = document.querySelector('#uploadBtn');
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
 
-//if user hover on img div 
-
-// imgDiv.addEventListener('mouseenter', function(){
-//     uploadBtn.style.display = "";
-// });
-
-// //if we hover out from img div
-
-// imgDiv.addEventListener('mouseleave', function(){
-//     uploadBtn.style.display = "none";
-// });
-
-//lets work for image showing functionality when we choose an image to upload
-
-//when we choose a foto to upload
-
-file.addEventListener('change', function(){
-    //this refers to file
-    const choosedFile = this.files[0];
-
-    if (choosedFile) {
-
-        const reader = new FileReader(); //FileReader is a predefined function of JS
-        reader.addEventListener('load', function(){
-            img.setAttribute('src', reader.result);
-        });
-
-        reader.readAsDataURL(choosedFile);
-
-   
+        reader.onload = function (e) {
+            $('#imageResult')
+                .attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
     }
+}
+
+$(function () {
+    $('#upload').on('change', function () {
+        readURL(input);
+    });
 });
+
+var input = document.getElementById( 'upload' );
+var infoArea = document.getElementById( 'upload-label' );
+
+input.addEventListener( 'change', showFileName );
+function showFileName( event ) {
+  var input = event.srcElement;
+  var fileName = input.files[0].name;
+  infoArea.textContent = 'File name: ' + fileName;
+}

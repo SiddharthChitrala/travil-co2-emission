@@ -134,7 +134,7 @@ def output1():
             VehicleFuelType = request.form['VehicleFuelType']
             Distance = request.form['Distance']
             NumberOfPeople = request.form['NumberOfPeople']
-            co2e_pp=pp
+            co2e_pp = pp
             print(pp)
             co2e = e
             insert_sql = "INSERT INTO VEHICLES VALUES (?,?,?,?,?,?)"
@@ -191,7 +191,7 @@ def output2():
             VehicleFuelType = request.form['VehicleFuelType']
             Distance = request.form['Distance']
             NumberOfPeople = request.form['NumberOfPeople']
-            co2e_pp=pp
+            co2e_pp = pp
             print(pp)
             co2e = e
             insert_sql = "INSERT INTO VEHICLES VALUES (?,?,?,?,?,?)"
@@ -248,7 +248,7 @@ def output3():
             VehicleFuelType = request.form['VehicleFuelType']
             Distance = request.form['Distance']
             NumberOfPeople = request.form['NumberOfPeople']
-            co2e_pp=pp
+            co2e_pp = pp
             print(pp)
             co2e = e
             insert_sql = "INSERT INTO VEHICLES VALUES (?,?,?,?,?,?)"
@@ -305,7 +305,7 @@ def output4():
             VehicleFuelType = request.form['VehicleFuelType']
             Distance = request.form['Distance']
             NumberOfPeople = request.form['NumberOfPeople']
-            co2e_pp=pp
+            co2e_pp = pp
             print(pp)
             co2e = e
             insert_sql = "INSERT INTO VEHICLES VALUES (?,?,?,?,?,?)"
@@ -320,6 +320,19 @@ def output4():
         return render_template("co2calculator.html", pp=pp, e=e)
     return render_template("co2calculator.html")
 
+
+#  ride sharing details
+@app.route("/ride_sharing", methods=['POST', 'GET'])
+def ride_sharing():
+
+    return render_template("ride_sharing.html")
+
+# publish ride
+
+
+@app.route("/publish")
+def Publish():
+    return render_template("publish.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
