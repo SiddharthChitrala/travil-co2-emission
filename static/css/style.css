@@ -16,10 +16,22 @@
      width: 50vh;
 }
 
+.tabledetails{
+   
+     border-radius: 12px;
+}
+
+/* .tabledetailsco{
+  
+} */
+
+.searchtable{
+   height: 39vh;
+}
 .rides {
      background-image: url("https://img.freepik.com/free-vector/two-tourist-catching-car-road_74855-15561.jpg?w=1060&t=st=1673206978~exp=1673207578~hmac=300fe2e3bae50ec6f88a979b0ae07eee6818d6d74cc8e9a7a6daaa823277130a");
      background-repeat: no-repeat;
-     background-position: 23vh 10vh;
+     background-position: 23vh 1vh;
 }
 
 /* .card {

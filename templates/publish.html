@@ -43,55 +43,56 @@
       </ul>
     </div>
   </nav>
-  <div class="container pics p-2">
-    <div class="col areas">
-      <div class="row image-area">
-        
-        <img id="imageResult" src="/static/img/avatar.svg" class="img-fluid"  />
-      </div>
-    </div>
-    <div class="row buttons">
-    
-      <input id="upload" type="file" onchange="readURL(this);" class="form-control border-0" required />
-      <div class="append">
-        <label for="upload" id="upload_lable" class="btn btn-secondary">
-          Choose Profile Pic
-        </label>
-      </div>
-    </div>
-  </div>
+
   <section id="inputdetails">
     <div class="container f-grid gap-4 p-2">
-      <form>
+      <form action="/publishDetails" method="post" enctype = "multipart/form-data">
+        <div class="row">
+          <div class="container pics p-2">
+            <div class="col areas">
+              <div class="row image-area">
+                
+                <img id="imageResult" src="/static/img/avatar.svg"  class="img-fluid"  />
+              </div>
+            </div>
+            <div class="row buttons">
+            
+              <input id="upload" type="file" onchange="readURL(this);" class="form-control border-0" name="ProfilePic" required />
+              <div class="append">
+                <label for="upload" id="upload_lable" class="btn btn-secondary">
+                  Choose Profile Pic
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="row ">
           <div class="col">
-            <input type="text" class="form-control publish  p-3" placeholder="Enter Full Name" name="text">
+            <input type="text" class="form-control publish  p-3" placeholder="Enter Full Name" name="FullName">
           </div>
           <div class="col">
-            <input type="phone" class="form-control publish  p-3" placeholder="Enter Phone Number" name="Phone" required>
-          </div>
-  
-          <div class="col">
-            <input type="text" class="form-control publish  p-3" placeholder="Enter email" name="email">
-          </div>
-          <div class="col">
-            <input type="password" class="form-control publish p-3" placeholder="Enter password" name="pswd" required>
-          </div>
-          <div class="col">
-            <input class="form-control publish p-3" list="datalistOptions" type="search" placeholder="Leaving from.."
-              required>
-  
-          </div>
-          <div class="col">
-            <input class="form-control publish p-3" list="datalistOptions" type="search" placeholder="Going to..."
-              required>
+            <input type="phone" class="form-control publish  p-3" placeholder="Enter Phone Number" name="PhoneNumber" required>
           </div>
   
           <div class="col">
-            <input type="datetime-local" class="p-3 publish" " id=" datetime-local" required>
+            <input type="text" class="form-control publish  p-3" placeholder="Enter email" name="Email">
+          </div>
+          <div class="col">
+            <input type="password" class="form-control publish p-3" placeholder="Enter password" name="Password" required>
+          </div>
+          <div class="col">
+            <input class="form-control publish p-3" list="datalistOptions" type="search" placeholder="Leaving from.." name="Location"     required>
+  
+          </div>
+          <div class="col">
+            <input class="form-control publish p-3" list="datalistOptions" type="search" placeholder="Going to..." name="Destination"    required>
+          </div>
+  
+          <div class="col">
+            <input type="datetime-local" class="p-3 publish" " id=" datetime-local" name="DateTime" required>
           </div>
           <div class="col ">
-            <input type="number" class="p-3 publish" " id=" NumberOfPeople" placeholder="Number Of People" required>
+            <input type="number" class="p-3 publish" " id=" NumberOfPeople" name="NumberOfPeople" placeholder="Number Of People" required>
           </div>
   
   
