@@ -348,8 +348,20 @@ def output4():
 #  ride sharing details
 @app.route("/ride_sharing", methods=['POST', 'GET'])
 def ride_sharing():
+    
+    sql = "SELECT * FROM RIDEPUBLISH"
+    stmt = ibm_db.prepare(conn, sql)
+    ibm_db.execute(stmt)
+    row = []
+    while True:
+            data = ibm_db.fetch_assoc(stmt)
+            if not data:
+                break
+            else:
+                row.append(data)
+            print('rows: ', row)
+    return render_template("ride_sharing.html", rows = row)
 
-    return render_template("ride_sharing.html")
 
 # publish ride
 
