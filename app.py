@@ -415,15 +415,6 @@ def publishing():
         ProfilePic.save(filepath)
         cos.upload_file(Filename=filepath,
                         Bucket='profilepictures27', Key=FullName + '.jpg')
-        # image.save(os.path.join("static/images", filename))
-        # print('data sent tô Object storage')
-        # ProfilePic=ProfilePic
-        # NumberOfPeople=NumberOfPeople
-        # FullName=FullName
-        # PhoneNumber=PhoneNumber
-        # Location=Location
-        # Destination=Destination
-        # Email= Email
         print(ProfilePic)
         sql = "SELECT * FROM RIDEPUBLISH WHERE USERID=" + str(session['USERID'])
         stmt = ibm_db.prepare(conn, sql)
@@ -439,6 +430,16 @@ def publishing():
             print('rows: ', row)
     return render_template("ride_sharing.html", rows = row, NumberOfPeople=NumberOfPeople,  FullName=FullName,  PhoneNumber=PhoneNumber, Location=Location, Destination=Destination, Email=Email)
 
+
+@app.route("/ride_booking", methods=['POST'])
+def num11():
+    num2=request.form['num1']
+    print(num2)
+    sql = "SELECT * FROM RIDEPUBLISH WHERE USERID="+ str(session['USERID'])
+    stmt = ibm_db.prepare(conn, sql)
+    ibm_db.execute(stmt)
+    account = ibm_db.fetch_assoc(stmt)
+    return render_template("ride_booking.html",num2=num2)
 
 if __name__ == '__main__':
     app.run(debug=True)
