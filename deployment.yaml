@@ -1,0 +1,20 @@
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: newtravel
+ spec:
+   replicas: 3
+   selector:
+     matchLabels:
+       app: newtravel
+   template:
+     metadata:
+       labels:
+         app: newtravel
+     spec:
+       containers:
+       - name: travel
+         image: jp.icr.io/travelco2/newtravel
+         imagePullPolicy: Always
+         ports:
+         - containerPort: 5000
