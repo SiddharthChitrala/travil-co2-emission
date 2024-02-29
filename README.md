@@ -34,8 +34,12 @@ Before you can run and deploy the application, make sure you have the following 
 
 - Python 3.x
 - Flask
-- Database system (e.g., PostgreSQL) for storing travel and emission data
-- Any additional dependencies specified in the `requirements.txt` file.
+- IBM DB2 (or another compatible database)
+- IBM Cloud account with Object Storage (for file storage)
+- Docker
+- Kubernetes
+- IBM Kubernetes cluster
+- Any additional dependencies specified in the requirements.txt file.
 
 ## Installation
 
